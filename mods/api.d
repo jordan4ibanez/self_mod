@@ -1,5 +1,9 @@
 module mods.api;
 
+// Do not modify this part :)
+//# BEGIN
+//# END
+
 class Mob {
     string modName = "undefined";
     string name = "undefined";
