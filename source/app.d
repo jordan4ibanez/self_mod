@@ -1,7 +1,9 @@
-import std.stdio;
 import mods.api;
+import std.stdio;
 
-void main()
-{
+void main() {
 	writeln("Edit source/app.d to start your project.");
+
+	initializeApi();
+
 }

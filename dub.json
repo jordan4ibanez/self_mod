@@ -7,6 +7,6 @@
 	"license": "MIT",
 	"name": "self_mod",
 	"preGenerateCommands": [
-		"ldc2 --run ./mods/auto_import.d"
+		"ldc2 --run auto_import.d"
 	]
 }

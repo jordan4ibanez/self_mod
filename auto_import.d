@@ -1,10 +1,10 @@
-module mods.auto_import;
+module auto_import;
 
 import std.algorithm.mutation;
 import std.array;
 import std.conv;
 import std.file;
-import std.stdio;
+import std.stdio : File, writeln;
 import std.string;
 
 /*
@@ -12,13 +12,13 @@ This file literally just modified the api.d file.
 */
 
 void main() {
-    writeln("AUTO IMPORT: Automating imports.");
+    // writeln("AUTO IMPORT: Automating imports.");
 
     // These do not have to be synchronized.
     string[] importList = [];
     string[] mainFunctionList = [];
 
-    foreach (filename; dirEntries("mods/", SpanMode.shallow)) {
+    foreach (filename; dirEntries("source/mods/", SpanMode.shallow)) {
         if (isDir!string(filename)) {
             // writeln("folder: ", filename);
 
@@ -30,6 +30,8 @@ void main() {
 
                 // Turn it into a module path and chop the [.d] off it.
                 string thisImport = target.replace("/", ".");
+                thisImport = thisImport.replace("source.", "");
+
                 thisImport = thisImport[0 .. (thisImport.length) - 2];
                 importList ~= thisImport;
 
@@ -37,7 +39,7 @@ void main() {
 
                 string thisFunctionName = thisImport;
 
-                // Remove the [mods.] and the [.init]
+                // Remove the [source.mods.] and the [.init]
 
                 thisFunctionName = thisFunctionName.replace("mods.", "");
                 thisFunctionName = thisFunctionName.replace(".init", "");
@@ -71,7 +73,9 @@ void main() {
         }
     }
 
-    File api = File("mods/api.d", "rw");
+    File apiFile = File("source/mods/api.d", "r");
+
+    apiFile.flush();
 
     string[] newFileData = [];
 
@@ -83,7 +87,7 @@ void main() {
     bool inFunctions = false;
     bool insertedFunctions = false;
 
-    foreach (thisLine; api.byLine()) {
+    foreach (thisLine; apiFile.byLine()) {
         if (inImports) {
             if (!insertedImports) {
                 insertedImports = true;
@@ -95,7 +99,7 @@ void main() {
             }
             if (thisLine == "//# =-AUTO IMPORT END-=") {
                 inImports = false;
-                writeln("ended import");
+                // writeln("ended import");
                 newFileData ~= to!string(thisLine);
             }
         } else if (inFunctions) {
@@ -114,7 +118,7 @@ void main() {
             }
             if (thisLine == "//# =-AUTO FUNCTION END-=") {
                 inFunctions = false;
-                writeln("ended function");
+                // writeln("ended function");
                 newFileData ~= to!string(thisLine);
             }
 
@@ -122,11 +126,11 @@ void main() {
             newFileData ~= to!string(thisLine);
 
             if (thisLine == "//# =-AUTO IMPORT BEGIN-=") {
-                writeln("started import");
+                // writeln("started import");
                 inImports = true;
                 detectedImport = true;
             } else if (thisLine == "//# =-AUTO FUNCTION BEGIN-=") {
-                writeln("start functions");
+                // writeln("start functions");
                 inFunctions = true;
             }
         }
@@ -136,14 +140,15 @@ void main() {
         throw new Error("Do not modify the auto import!");
     }
 
-    
-    
+    apiFile.close();
 
+    File newApiFile = File("source/mods/api.d", "w");
 
-    writeln("========================================");
+    // writeln("========================================");
     foreach (line; newFileData) {
-        writeln(line);
+        // writeln(line);
+        newApiFile.write(line ~ "\n");
     }
-    writeln("========================================");
+    // writeln("========================================");
 
 }
