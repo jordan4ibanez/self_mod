@@ -2,8 +2,5 @@ import mods.api;
 import std.stdio;
 
 void main() {
-	writeln("Edit source/app.d to start your project.");
-
-	initializeApi();
-
+	Api.initializeApi();
 }
