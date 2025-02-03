@@ -12,5 +12,9 @@
 	"sourcePaths": [
 		"source",
 		"mods"
+	],
+	"importPaths": [
+		"source",
+		"mods"
 	]
 }
