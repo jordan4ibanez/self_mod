@@ -1,4 +1,4 @@
-module mods.my_cool_mod.init;
+module mods.my_cool_mod.main;
 
 import std.stdio;
 

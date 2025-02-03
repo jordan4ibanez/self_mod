@@ -1,4 +1,4 @@
-module mods.desert.init;
+module mods.desert.main;
 
 import mods.api;
 
