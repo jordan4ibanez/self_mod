@@ -75,8 +75,13 @@ void main() {
 
     string[] newFileData = [];
 
+    bool detectedImport = false;
+
     bool inImports = false;
     bool insertedImports = false;
+
+    bool inFunctions = false;
+    bool insertedFunctions = false;
 
     foreach (thisLine; api.byLine()) {
         if (inImports) {
@@ -90,17 +95,50 @@ void main() {
             }
             if (thisLine == "//# =-AUTO IMPORT END-=") {
                 inImports = false;
-                writeln("ended");
+                writeln("ended import");
                 newFileData ~= to!string(thisLine);
             }
+        } else if (inFunctions) {
+            if (!insertedFunctions) {
+                insertedFunctions = true;
+
+                // Wrap the main function deployment in a function.
+                newFileData ~= "void deployMainFunctions() {";
+
+                // Here we insert the functions.
+                foreach (func; mainFunctionList) {
+                    newFileData ~= "    " ~ func ~ "();";
+                }
+
+                newFileData ~= "}";
+            }
+            if (thisLine == "//# =-AUTO FUNCTION END-=") {
+                inFunctions = false;
+                writeln("ended function");
+                newFileData ~= to!string(thisLine);
+            }
+
         } else {
             newFileData ~= to!string(thisLine);
+
             if (thisLine == "//# =-AUTO IMPORT BEGIN-=") {
-                writeln("started");
+                writeln("started import");
                 inImports = true;
+                detectedImport = true;
+            } else if (thisLine == "//# =-AUTO FUNCTION BEGIN-=") {
+                writeln("start functions");
+                inFunctions = true;
             }
         }
     }
+
+    if (!detectedImport) {
+        throw new Error("Do not modify the auto import!");
+    }
+
+    
+    
+
 
     writeln("========================================");
     foreach (line; newFileData) {
