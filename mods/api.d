@@ -8,6 +8,7 @@ import std.stdio : writeln;
 import mods.my_cool_mod.main;
 import mods.desert.main;
 import mods.snow.main;
+import mods.sky_mod.main;
 //# =-AUTO IMPORT END-=
 
 //# =-AUTO FUNCTION BEGIN-=
@@ -15,6 +16,7 @@ void deployMainFunctions() {
     myCoolModMain();
     desertMain();
     snowMain();
+    skyModMain();
 }
 //# =-AUTO FUNCTION END-=
 
