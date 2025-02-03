@@ -22,9 +22,9 @@ void main() {
         if (isDir!string(filename)) {
             // writeln("folder: ", filename);
 
-            string target = filename ~ "/init.d";
+            string target = filename ~ "/main.d";
 
-            // If your mod does not have an init file, it gets skipped.
+            // If your mod does not have an main file, it gets skipped.
 
             if (isFile!string(target)) {
 
@@ -38,10 +38,10 @@ void main() {
 
                 string thisFunctionName = thisImport;
 
-                // Remove the [source.mods.] and the [.init]
+                // Remove the [source.mods.] and the [.main]
 
                 thisFunctionName = thisFunctionName.replace("mods.", "");
-                thisFunctionName = thisFunctionName.replace(".init", "");
+                thisFunctionName = thisFunctionName.replace(".main", "");
 
                 // These could probably use a regex, but, dumb solution first.
 
