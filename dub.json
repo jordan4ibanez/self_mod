@@ -8,5 +8,9 @@
 	"name": "self_mod",
 	"preGenerateCommands": [
 		"ldc2 --run auto_import.d"
+	],
+	"sourcePaths": [
+		"source",
+		"mods"
 	]
 }
