@@ -68,6 +68,9 @@ void main() {
                     thisFunctionName = temp.idup;
                 }
 
+                // Then, we plop Main onto the end.
+                thisFunctionName ~= "Main";
+
                 mainFunctionList ~= thisFunctionName;
             }
         }
