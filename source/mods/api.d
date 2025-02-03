@@ -10,7 +10,7 @@ import mods.my_cool_mod.init;
 
 //# =-AUTO FUNCTION BEGIN-=
 void deployMainFunctions() {
-    myCoolMod();
+    myCoolModMain();
 }
 //# =-AUTO FUNCTION END-=
 
