@@ -14,7 +14,9 @@ This file literally just modified the api.d file.
 void main() {
     writeln("AUTO IMPORT: Automating imports.");
 
+    // These do not have to be synchronized.
     string[] importList = [];
+    string[] mainFunctionList = [];
 
     foreach (filename; dirEntries("mods/", SpanMode.shallow)) {
         if (isDir!string(filename)) {
@@ -22,22 +24,27 @@ void main() {
 
             string target = filename ~ "/init.d";
 
+            // If your mod does not have an init file, it gets skipped.
+
             if (isFile!string(target)) {
+
                 // Turn it into a module path and chop the [.d] off it.
                 string thisImport = target.replace("/", ".");
                 thisImport = thisImport[0 .. (thisImport.length) - 2];
                 importList ~= thisImport;
 
+                // Extract the "main" function for the mod.
+
                 string thisFunctionName = thisImport;
 
-                // Remove the [mods.]
-                {
-                    char[] temp = to!(char[])(thisFunctionName);
-                    temp = temp.remove(0, 1, 2, 3, 4);
-                    thisFunctionName = temp.idup;
-                }
+                // Remove the [mods.] and the [.init]
 
-                // Take care of the periods.
+                thisFunctionName = thisFunctionName.replace("mods.", "");
+                thisFunctionName = thisFunctionName.replace(".init", "");
+
+                // These could probably use a regex, but, dumb solution first.
+
+                // Take care of the periods and following characters.
                 while (long x = thisFunctionName.indexOf(".")) {
                     if (x <= 0) {
                         break;
@@ -48,7 +55,7 @@ void main() {
                     thisFunctionName = temp.idup;
                 }
 
-                // Take care of the underscore.
+                // Take care of the underscores and following characters.
                 while (long x = thisFunctionName.indexOf("_")) {
                     if (x <= 0) {
                         break;
@@ -58,8 +65,8 @@ void main() {
                     temp = temp.remove(x);
                     thisFunctionName = temp.idup;
                 }
-                writeln(thisFunctionName);
 
+                mainFunctionList ~= thisFunctionName;
             }
         }
     }
