@@ -5,14 +5,16 @@ import std.stdio : writeln;
 // Do not modify the autos. :)
 
 //# =-AUTO IMPORT BEGIN-=
-import mods.my_cool_mod.init;
-import mods.desert.init;
+import mods.my_cool_mod.main;
+import mods.desert.main;
+import mods.snow.main;
 //# =-AUTO IMPORT END-=
 
 //# =-AUTO FUNCTION BEGIN-=
 void deployMainFunctions() {
     myCoolModMain();
     desertMain();
+    snowMain();
 }
 //# =-AUTO FUNCTION END-=
 
