@@ -70,4 +70,42 @@ void main() {
             }
         }
     }
+
+    File api = File("mods/api.d", "rw");
+
+    string[] newFileData = [];
+
+    bool inImports = false;
+    bool insertedImports = false;
+
+    foreach (thisLine; api.byLine()) {
+        if (inImports) {
+            if (!insertedImports) {
+                insertedImports = true;
+
+                // Here we insert the imports.
+                foreach (imp; importList) {
+                    newFileData ~= "import " ~ imp ~ ";";
+                }
+            }
+            if (thisLine == "//# =-AUTO IMPORT END-=") {
+                inImports = false;
+                writeln("ended");
+                newFileData ~= to!string(thisLine);
+            }
+        } else {
+            newFileData ~= to!string(thisLine);
+            if (thisLine == "//# =-AUTO IMPORT BEGIN-=") {
+                writeln("started");
+                inImports = true;
+            }
+        }
+    }
+
+    writeln("========================================");
+    foreach (line; newFileData) {
+        writeln(line);
+    }
+    writeln("========================================");
+
 }

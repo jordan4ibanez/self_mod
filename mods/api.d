@@ -1,6 +1,7 @@
 module mods.api;
 
-// Do not modify this part :)
-//# BEGIN
-//# END
+// Do not modify the autos. :)
 
+//# =-AUTO IMPORT BEGIN-=
+
+//# =-AUTO IMPORT END-=
