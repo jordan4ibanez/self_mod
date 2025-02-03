@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/self_mod
+self_mod.so
+self_mod.dylib
+self_mod.dll
+self_mod.a
+self_mod.lib
+self_mod-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
