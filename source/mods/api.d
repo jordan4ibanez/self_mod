@@ -6,11 +6,13 @@ import std.stdio : writeln;
 
 //# =-AUTO IMPORT BEGIN-=
 import mods.my_cool_mod.init;
+import mods.desert.init;
 //# =-AUTO IMPORT END-=
 
 //# =-AUTO FUNCTION BEGIN-=
 void deployMainFunctions() {
     myCoolModMain();
+    desertMain();
 }
 //# =-AUTO FUNCTION END-=
 
