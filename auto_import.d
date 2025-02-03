@@ -18,7 +18,7 @@ void main() {
     string[] importList = [];
     string[] mainFunctionList = [];
 
-    foreach (filename; dirEntries("source/mods/", SpanMode.shallow)) {
+    foreach (filename; dirEntries("mods/", SpanMode.shallow)) {
         if (isDir!string(filename)) {
             // writeln("folder: ", filename);
 
@@ -30,7 +30,6 @@ void main() {
 
                 // Turn it into a module path and chop the [.d] off it.
                 string thisImport = target.replace("/", ".");
-                thisImport = thisImport.replace("source.", "");
 
                 thisImport = thisImport[0 .. (thisImport.length) - 2];
                 importList ~= thisImport;
@@ -76,7 +75,7 @@ void main() {
         }
     }
 
-    File apiFile = File("source/mods/api.d", "r");
+    File apiFile = File("mods/api.d", "r");
 
     string[] newFileData = [];
 
@@ -143,7 +142,7 @@ void main() {
 
     apiFile.close();
 
-    File newApiFile = File("source/mods/api.d", "w");
+    File newApiFile = File("mods/api.d", "w");
 
     // writeln("========================================");
     foreach (line; newFileData) {
