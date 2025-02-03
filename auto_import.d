@@ -78,8 +78,6 @@ void main() {
 
     File apiFile = File("source/mods/api.d", "r");
 
-    apiFile.flush();
-
     string[] newFileData = [];
 
     bool detectedImport = false;
